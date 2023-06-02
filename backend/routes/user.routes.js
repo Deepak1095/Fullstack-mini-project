@@ -33,8 +33,9 @@ userRouter.post("/login",async(req,res)=>{
             bcrypt.compare(password,user.password,(err,result)=>{
                 if(result){
                     const token=jwt.sign({data:"Backend"},"india", { expiresIn: '1h' })
+                    const rtoken=jwt.sign({token:"refreshtoken"},"rtoken", { expiresIn: '10h' })
                     console.log(token)
-                    res.status(200).json({msg:"user is login ",token:token})
+                    res.status(200).json({msg:"user is login ",token,rtoken})
                 }
                 else{
                     res.status(200).json({err:err.message})
