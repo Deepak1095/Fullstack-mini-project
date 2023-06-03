@@ -4,7 +4,7 @@ const jwt=require("jsonwebtoken")
 const { UserModel } = require("../model/user.model")
 const { BlackListModel } = require("../model/blacklist.model")
 const userRouter=express.Router()
-
+require("dotenv").config()
 userRouter.post("/register",async(req,res)=>{
     const {name,email,password,age}=req.body
 
@@ -33,8 +33,8 @@ userRouter.post("/login",async(req,res)=>{
         if(user){
             bcrypt.compare(password,user.password,(err,result)=>{
                 if(result){
-                    const token=jwt.sign({data:"Backend"},"india", { expiresIn: '1h' })
-                    const rtoken=jwt.sign({token:"refreshtoken"},"rtoken", { expiresIn: '10h' })
+                    const token=jwt.sign({data:"Backend"},process.env.SECRET_KEY, { expiresIn: '1h' })
+                    const rtoken=jwt.sign({token:"refreshtoken"},process.env.SECRET_KEY, { expiresIn: '10h' })
                     console.log(token)
                     res.status(200).json({msg:"user is login ",token,rtoken})
                 }

@@ -1,10 +1,13 @@
+const { BlackListModel } = require("../model/blacklist.model");
 
-
-const auth=(req,res,next)=>{
+require("dotenv").config()
+const auth=async(req,res,next)=>{
     const token=req.headers.auth.split(" ")[1]
-    if(token){
+   
         try{
-            const decoded = jwt.verify(token, 'india');
+            const tokenBlacklist=await BlackListModel.findOne({token:token})
+            if(!tokenBlacklist){
+            const decoded = jwt.verify(token,process.env.SECRET_KEY);
             if(decoded){
                 next()
             }
@@ -12,15 +15,16 @@ const auth=(req,res,next)=>{
                 res.status(404).json({msg:"token not recognised"})
             }
         }
+            else{
+                res.status(200).json({msg:"please login"})
+            }
+        }
         catch(err){
             res.status(400).json({err:err.message})
         }
     }
-    else{
-        res.status(200).json({msg:"please login"})
-    }
+    
    
-}
 
 module.exports={
     auth
