@@ -2,6 +2,7 @@ const express=require("express")
 const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken")
 const { UserModel } = require("../model/user.model")
+const { BlackListModel } = require("../model/blacklist.model")
 const userRouter=express.Router()
 
 userRouter.post("/register",async(req,res)=>{
@@ -50,6 +51,26 @@ userRouter.post("/login",async(req,res)=>{
     catch(err){
         res.status(400).json({err:err.message})
     }
+})
+
+userRouter.get("/logout",async(req,res)=>{
+    try{
+        const token=req.headers.auth.split(" ")[1]
+        const existingToken= await BlackListModel.findOne({token:token})
+        if(!existingToken){
+          const blacklistToken=new BlackListModel({token:token,expireAt:new Date(Date.now()+24*60*60*1000)})
+          await blacklistToken.save()
+          await BlackListModel.deleteMany({expireAt:{$lte:new Date()}})
+          res.status(200).json({msg:"user logout"})
+        }
+        else{
+            res.status(200).json({msg:"user already logout"})
+        }
+    }
+    catch(err){
+        res.status(400).json({err:err.message})
+    }
+    
 })
 
 module.exports={
