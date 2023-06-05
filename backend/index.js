@@ -3,12 +3,15 @@ const { connection } = require("./config/db")
 const { userRouter } = require("./routes/user.routes")
 const { bookRouter } = require("./routes/books.routes")
 const jwt=require("jsonwebtoken")
-
+const cors=require("cors")
 require("dotenv").config()
+
 const app=express()
+
+app.use(cors())
 app.use(express.json())
 app.use("/user",userRouter)
-app.user("/books",bookRouter)
+app.use("/books",bookRouter)
 app.get("/regeneratetoken",(req,res)=>{
     const rtoken=req.headers.auth.split(" "[1])
     const decode=jwt.verify(rtoken,"rtoken")
