@@ -11,7 +11,17 @@ const Signup=()=>{
     const handleBtn=()=>{
         const payload={name,email,password,age}
         console.log(payload)
-       
+        fetch("http://localhost:9090/user/register",{
+            method:"POST",
+            headers:{
+                "Content-type":"application/json"
+            },
+            body:JSON.stringify(payload)
+           
+        })
+        .then((res)=>res.json())
+        .then(res=>console.log(res))
+        .catch((err)=> console.log(err) )
     }
     return (
         <Box>
