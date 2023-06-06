@@ -11,7 +11,7 @@ const Signup=()=>{
     const handleBtn=()=>{
         const payload={name,email,password,age}
         console.log(payload)
-        fetch("http://localhost:9090/user/register",{
+        fetch("https://impossible-earrings-clam.cyclic.app/user/register",{
             method:"POST",
             headers:{
                 "Content-type":"application/json"

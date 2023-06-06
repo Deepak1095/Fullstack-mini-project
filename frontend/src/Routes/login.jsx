@@ -6,7 +6,7 @@ const Login = () => {
     const [password, setPassword] = useState("")
     const handleBtn = () => {
         const payload = { email, password }
-        fetch("http://localhost:9090/user/login",{
+        fetch("https://impossible-earrings-clam.cyclic.app/user/login",{
             method:"POST",
             headers:{
                 "Content-type":"application/json"
