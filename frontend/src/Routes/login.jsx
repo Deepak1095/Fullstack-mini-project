@@ -26,7 +26,7 @@ const Login = () => {
             <FormControl>
                 <FormLabel  marginBottom={"5px"}>Email address</FormLabel>
                 <Input width={"100%"} height={"25px"} marginBottom={"10px"} type="email" placeholder="Enter your email" onChange={(e) => setEmail(e.target.value)} />
-                <FormLabel  marginBottom={"5px"}>Email address</FormLabel>
+                <FormLabel  marginBottom={"5px"}>password</FormLabel>
                 <Input width="100%" height={"25px"} marginBottom={"10px"} type="password" placeholder="Enter your password" onChange={(e) => setPassword(e.target.value)} />
             </FormControl>
 
